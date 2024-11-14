@@ -1,7 +1,7 @@
 public class Table extends Thread {
     private final int countOfPhilosopher;
     private final int limitMeals;
-    private volatile Status[] tableStatus;
+    private final Status[] tableStatus;
     private final Philosopher[] philosophers;
 
     public Table(int countOfPhilosopher, int limitMeals) {
