@@ -13,6 +13,7 @@ public class Table extends Thread {
         initPhilosophers();
     }
 
+
     private void initStatuses() {
         for (int i = 0; i < countOfPhilosopher; i++) {
             tableStatus[i] = Status.THINKING;
