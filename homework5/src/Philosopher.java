@@ -1,17 +1,20 @@
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Philosopher extends Thread {
     private final int ID;
     private final Status[] states;
+    ReentrantLock locker;
     private final int limitMeals;
     private int countMeals;
     private final Random random = new Random();
 
-    public Philosopher(int ID, int limitMeals, Status[] states) {
+    public Philosopher(int ID, int limitMeals, Status[] states, ReentrantLock locker) {
         this.ID = ID;
         this.limitMeals = limitMeals;
         this.states = states;
         countMeals = 0;
+        this.locker = locker;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class Philosopher extends Thread {
     }
 
     private void tryChangeStatus() {
+        locker.lock();
         if (states[ID] == Status.EATING) {
             states[ID] = Status.THINKING;
             System.out.println(ID + "-й думать будет...");
@@ -44,6 +48,7 @@ public class Philosopher extends Thread {
                 System.out.println(ID + "-й ещё подумает немного...");
             }
         }
+        locker.unlock();
     }
 
     private Status nextState() {

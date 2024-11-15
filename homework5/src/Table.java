@@ -1,12 +1,16 @@
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Table extends Thread {
     private final int countOfPhilosopher;
     private final int limitMeals;
     private final Status[] tableStatus;
+    private final ReentrantLock locker;
     private final Philosopher[] philosophers;
 
     public Table(int countOfPhilosopher, int limitMeals) {
         this.countOfPhilosopher = countOfPhilosopher;
         this.limitMeals = limitMeals;
+        locker = new ReentrantLock();
         this.tableStatus = new Status[countOfPhilosopher];
         initStatuses();
         this.philosophers = new Philosopher[countOfPhilosopher];
@@ -22,7 +26,7 @@ public class Table extends Thread {
 
     private void initPhilosophers() {
         for (int i = 0; i < countOfPhilosopher; i++) {
-            philosophers[i] = new Philosopher(i, limitMeals, tableStatus);
+            philosophers[i] = new Philosopher(i, limitMeals, tableStatus, locker);
         }
     }
 
