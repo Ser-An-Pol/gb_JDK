@@ -29,7 +29,7 @@ public class Philosopher extends Thread {
         System.out.println(ID + "-й пошел домой...");
     }
 
-    private synchronized void tryChangeStatus() {
+    private void tryChangeStatus() {
         if (states[ID] == Status.EATING) {
             states[ID] = Status.THINKING;
             System.out.println(ID + "-й думать будет...");
