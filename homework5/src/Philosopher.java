@@ -23,13 +23,9 @@ public class Philosopher extends Thread {
         while (countMeals < limitMeals) {
             try {
                 Thread.sleep(random.nextInt(3000));
-                locker.lock();
                 tryChangeStatus();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            }
-            finally {
-                locker.unlock();
             }
         }
         states[ID] = Status.THINKING;
@@ -37,6 +33,7 @@ public class Philosopher extends Thread {
     }
 
     private void tryChangeStatus() {
+        locker.lock();
         if (states[ID] == Status.EATING) {
             states[ID] = Status.THINKING;
             System.out.println(ID + "-й думать будет...");
@@ -51,6 +48,7 @@ public class Philosopher extends Thread {
                 System.out.println(ID + "-й ещё подумает немного...");
             }
         }
+        locker.unlock();
     }
 
     private Status nextState() {
